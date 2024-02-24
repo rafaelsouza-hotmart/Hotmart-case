@@ -50,6 +50,9 @@ def countries_top_sales(csv_file_path):
 
 
 #TODO o count desse carinha não está certo
+#tem que olhar pro recurrency number
+#se for null n tem parcela, e é sale
+#se tiver valor é assinatura
 def countries_top_subs(csv_file_path):
     print("Loading top subscriptions by country...")
     df = pd.read_csv(csv_file_path)
@@ -114,6 +117,44 @@ def top_niches(csv_file_path):
     plt.title('Niche Analysis')
     plt.xlabel('Niche Type')
     plt.ylabel('Count')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
+
+# top creators
+
+#preciso pegar o creator id
+    # as purchase id que n tem parent id
+
+#vendas de um produtor (mas apenas cocreator & afiliado)
+
+    #posso fazer tambem um pra saber os anos que os
+    #creators mais venderam
+
+    #afiliados e cocreators
+    #produtos em que os afiliados mais lucram
+    # mesma coisa para cocreators    #meses tambem
+def top_creators(csv_file_path):
+    print("Loading creators...")
+    df = pd.read_csv(csv_file_path)
+
+    #filter out affiliates, cocreators & subscriptions
+    sales = df[(df['purchase_commission_affiliate'].isnull()) &
+               (df['purchase_commission_cocreator'].isnull()) &
+               (df['purchase_recurrency_number'].isnull())]
+
+
+    creator_sales = sales['creator_id'].value_counts().head(10)
+
+    creator_sales = creator_sales.sort_values(ascending=False)
+
+    plt.figure(figsize=(12, 6))
+    creator_sales.plot(kind='barh', color='red')
+    plt.title('Top 10 Creators by Sales')
+    plt.xlabel('Creator ID')
+    plt.ylabel('Number of Sales')
+    plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
