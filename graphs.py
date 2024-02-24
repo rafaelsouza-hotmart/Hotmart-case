@@ -214,6 +214,8 @@ def month_sales_2023(csv_file_path):
 
     sales_by_month = df_2023.groupby('month')['purchase_id'].count()
 
+    sales_by_month = sales_by_month.reindex(range(1, 13), fill_value=0)
+
     plt.figure(figsize=(12, 6))
     sales_by_month.plot(kind='bar', color='green')
     plt.title('Total Sales by Month in 2023 (Excluding Recurrences)')
