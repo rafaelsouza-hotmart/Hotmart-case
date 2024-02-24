@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import calendar
 
 
 def product_type_graph(csv_file_path):
@@ -210,11 +211,12 @@ def month_sales_2023(csv_file_path):
 
     df_2023 = df_2023[df_2023['purchase_recurrency_number'].isnull()]
 
-    df_2023['month'] = df_2023['purchase_release_datetime'].dt.month
+    df_2023['month'] = df_2023['purchase_release_datetime'].dt.month.apply(lambda x: calendar.month_name[x])
 
     sales_by_month = df_2023.groupby('month')['purchase_id'].count()
 
-    sales_by_month = sales_by_month.reindex(range(1, 13), fill_value=0)
+    months = list(calendar.month_name)[1:]  # Exclude empty string at index 0
+    sales_by_month = sales_by_month.reindex(months, fill_value=0)
 
     plt.figure(figsize=(12, 6))
     sales_by_month.plot(kind='bar', color='green')
