@@ -85,3 +85,20 @@ def most_used_recurrences(csv_file_path):
     plt.tight_layout()
 
     plt.show()
+
+def top_payment_methods(csv_file_path):
+    print("Loading most used payment methods...")
+    df = pd.read_csv(csv_file_path)
+
+    payment_methods = df['purchase_payment_method'].value_counts()
+
+    plt.figure(figsize=(12, 6))
+    payment_methods.plot(kind='bar', color='purple')
+    plt.title('Recurrency Analysis')
+    plt.xlabel('Recurrency Type')
+    plt.ylabel('Count')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
