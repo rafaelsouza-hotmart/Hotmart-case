@@ -105,14 +105,32 @@ def top_niches(csv_file_path):
     print("Loading niches...")
     df = pd.read_csv(csv_file_path)
 
-    niches = df['product_niche'].value_counts()
+    niche_products = df.groupby('product_niche')['product_id'].nunique()
 
     plt.figure(figsize=(12, 6))
-    niches.plot(kind='barh', color='purple')
-    plt.title('Niche Analysis')
+    niche_products.sort_values(ascending=False).plot(kind='barh', color='purple')
+    plt.title('Number of products by niche')
     plt.xlabel('Niche Type')
-    plt.ylabel('Count')
+    plt.ylabel('Products registered')
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
+
+def top_niches_sales(csv_file_path):
+    print("Loading niches and counting sales...")
+    df = pd.read_csv(csv_file_path)
+
+    df = df[df['purchase_parent_id'].isnull()]
+
+    sales_by_niche = df.groupby('product_niche')['purchase_id'].nunique()
+
+    plt.figure(figsize=(12, 6))
+    sales_by_niche.sort_values(ascending=False).plot(kind='barh', color='orange')
+    plt.title('Sales by Niche')
+    plt.xlabel('Number of Sales')
+    plt.ylabel('Niche Type')
+    plt.grid(axis='x', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
     plt.show()
