@@ -122,18 +122,13 @@ def top_niches(csv_file_path):
 
     plt.show()
 
-# top creators
-
-
-
 #vendas de um produtor (mas apenas cocreator & afiliado)
 
-    #posso fazer tambem um pra saber os anos que os
-    #creators mais venderam
 
     #afiliados e cocreators
     #produtos em que os afiliados mais lucram
     # mesma coisa para cocreators    #meses tambem
+
 def top_creators(csv_file_path):
     print("Loading creators...")
     df = pd.read_csv(csv_file_path)
@@ -182,3 +177,25 @@ def year_by_year_total_sales(csv_file_path):
 
     plt.show()
 
+def year_by_year_total_subs(csv_file_path):
+    print("Loading yearly subscription data...")
+    df = pd.read_csv(csv_file_path)
+
+    df['purchase_release_datetime'] = pd.to_datetime(df['purchase_release_datetime'])
+
+    df = df[df['purchase_recurrency_number'].notnull()]
+
+    df['year'] = df['purchase_release_datetime'].dt.year
+
+    subs_by_year = df.groupby('year')['purchase_id'].count()
+
+    plt.figure(figsize=(12, 6))
+    subs_by_year.plot(kind='bar', color='green')
+    plt.title('Total Subscriptions by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Total Subscriptions')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
