@@ -48,6 +48,8 @@ def countries_top_sales(csv_file_path):
 
     plt.show()
 
+
+#TODO o count desse carinha não está certo
 def countries_top_subs(csv_file_path):
     print("Loading top subscriptions by country...")
     df = pd.read_csv(csv_file_path)
@@ -75,13 +77,11 @@ def most_used_recurrences(csv_file_path):
 
     recurrence_counts = df['purchase_recurrency_type'].value_counts(dropna=False)
 
-    plt.figure(figsize=(12, 6))
-    recurrence_counts.plot(kind='bar', color='purple')
+    plt.figure(figsize=(8, 8))
+    recurrence_counts.plot(kind='pie', colors=['lightblue', 'lightgreen', 'lightcoral', 'lightskyblue', 'lightpink'],
+                           autopct='%1.1f%%')
     plt.title('Recurrency Analysis')
-    plt.xlabel('Recurrency Type')
-    plt.ylabel('Count')
-    plt.xticks(rotation=45)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.ylabel('')  # Remove the y-label
     plt.tight_layout()
 
     plt.show()
@@ -94,10 +94,26 @@ def top_payment_methods(csv_file_path):
 
     plt.figure(figsize=(12, 6))
     payment_methods.plot(kind='bar', color='purple')
-    plt.title('Recurrency Analysis')
-    plt.xlabel('Recurrency Type')
+    plt.title('Top Payment Methods Analysis')
+    plt.xlabel('Payment Methods Type')
     plt.ylabel('Count')
     plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
+
+def top_niches(csv_file_path):
+    print("Loading niches...")
+    df = pd.read_csv(csv_file_path)
+
+    niches = df['product_niche'].value_counts()
+
+    plt.figure(figsize=(12, 6))
+    niches.plot(kind='barh', color='purple')
+    plt.title('Niche Analysis')
+    plt.xlabel('Niche Type')
+    plt.ylabel('Count')
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
