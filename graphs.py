@@ -124,8 +124,7 @@ def top_niches(csv_file_path):
 
 # top creators
 
-#preciso pegar o creator id
-    # as purchase id que n tem parent id
+
 
 #vendas de um produtor (mas apenas cocreator & afiliado)
 
@@ -152,10 +151,34 @@ def top_creators(csv_file_path):
     plt.figure(figsize=(12, 6))
     creator_sales.plot(kind='barh', color='red')
     plt.title('Top 10 Creators by Sales')
-    plt.xlabel('Creator ID')
-    plt.ylabel('Number of Sales')
+    plt.xlabel('Number of Sales')
+    plt.ylabel('Creator ID')
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
     plt.show()
+
+def year_by_year_total_sales(csv_file_path):
+    print("Loading yearly sales data...")
+    df = pd.read_csv(csv_file_path)
+
+    df['purchase_release_datetime'] = pd.to_datetime(df['purchase_release_datetime'])
+
+    df = df[df['purchase_recurrency_number'].isnull()]
+
+    df['year'] = df['purchase_release_datetime'].dt.year
+
+    sales_by_year = df.groupby('year')['purchase_id'].count()
+
+    plt.figure(figsize=(12, 6))
+    sales_by_year.plot(kind='bar', color='skyblue')
+    plt.title('Total Sales by Year (Excluding Recurrences)')
+    plt.xlabel('Year')
+    plt.ylabel('Total Sales')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
+
