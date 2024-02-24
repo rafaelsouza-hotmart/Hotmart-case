@@ -68,3 +68,20 @@ def countries_top_subs(csv_file_path):
     plt.tight_layout()
 
     plt.show()
+
+def most_used_recurrences(csv_file_path):
+    print("Loading recurrences...")
+    df = pd.read_csv(csv_file_path)
+
+    recurrence_counts = df['purchase_recurrency_type'].value_counts(dropna=False)
+
+    plt.figure(figsize=(12, 6))
+    recurrence_counts.plot(kind='bar', color='purple')
+    plt.title('Recurrency Analysis')
+    plt.xlabel('Recurrency Type')
+    plt.ylabel('Count')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
