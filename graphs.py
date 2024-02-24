@@ -199,3 +199,28 @@ def year_by_year_total_subs(csv_file_path):
     plt.tight_layout()
 
     plt.show()
+
+def month_sales_2023(csv_file_path):
+    print("Loading monthly sales...")
+    df = pd.read_csv(csv_file_path)
+
+    df['purchase_release_datetime'] = pd.to_datetime(df['purchase_release_datetime'])
+
+    df_2023 = df[df['purchase_release_datetime'].dt.year == 2023]
+
+    df_2023 = df_2023[df_2023['purchase_recurrency_number'].isnull()]
+
+    df_2023['month'] = df_2023['purchase_release_datetime'].dt.month
+
+    sales_by_month = df_2023.groupby('month')['purchase_id'].count()
+
+    plt.figure(figsize=(12, 6))
+    sales_by_month.plot(kind='bar', color='green')
+    plt.title('Total Sales by Month in 2023 (Excluding Recurrences)')
+    plt.xlabel('Month')
+    plt.ylabel('Total Sales')
+    plt.xticks(rotation=0)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
