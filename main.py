@@ -7,9 +7,9 @@ df = pd.read_csv(csv_file_path)
 print("Available graphs")
 print("1 - Product type \n2 - Sale Amount")
 
-tipo_grafico = input("What graph would you like to see: ")
+graph_chosen = input("What graph would you like to see: ")
 
-if tipo_grafico == "1":
+if graph_chosen == "1":
     count = df['product_format'].value_counts()
 
     plt.figure(figsize=(10, 6))
