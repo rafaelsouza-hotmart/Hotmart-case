@@ -47,3 +47,24 @@ def countries_top_sales(csv_file_path):
     plt.tight_layout()
 
     plt.show()
+
+def countries_top_subs(csv_file_path):
+    print("Loading top subscriptions by country...")
+    df = pd.read_csv(csv_file_path)
+
+    # subs
+    subscriptions = df[df['purchase_parent_id'].notnull()]
+
+    # countries
+    country_count = subscriptions['user_buyer_country'].value_counts()
+
+    plt.figure(figsize=(12, 6))
+    country_count.plot(kind='bar', color='skyblue')
+    plt.title('Number of Subscriptions by Country (Original Purchases)')
+    plt.xlabel('Country')
+    plt.ylabel('Number of Subscriptions')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()

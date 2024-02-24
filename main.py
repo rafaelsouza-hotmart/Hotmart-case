@@ -1,4 +1,4 @@
-from graphs import product_type_graph, find_parent_purchases, countries_top_sales
+from graphs import product_type_graph, find_parent_purchases, countries_top_sales, countries_top_subs
 
 if __name__ == '__main__':
     csv_file_path = '/Users/rafael.souza/Desktop/case dados/drive-download-20240220T202251Z-001/Purchases.csv'
@@ -13,5 +13,7 @@ if __name__ == '__main__':
         product_type_graph(csv_file_path)
     elif graph_chosen == "2":
         countries_top_sales(csv_file_path)
+    elif graph_chosen == "3":
+        countries_top_subs(csv_file_path)
 
 
