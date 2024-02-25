@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import calendar
 
 
-def product_type_graph(csv_file_path):
+def product_format_count(csv_file_path):
     df = pd.read_csv(csv_file_path)
 
     count = df['product_format'].value_counts()
@@ -13,6 +13,27 @@ def product_type_graph(csv_file_path):
     plt.title('Product format - Count')
     plt.xlabel('Product format')
     plt.ylabel('Count')
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+
+    plt.show()
+
+def product_format_sales(csv_file_path):
+    print("Loading sales by product type...")
+    df = pd.read_csv(csv_file_path)
+
+    df = df[df['purchase_recurrency_number'].isnull()]
+
+    sales_by_format = df.groupby('product_format')['purchase_id'].nunique()
+
+    # count = df['product_format'].value_counts()
+
+    plt.figure(figsize=(10, 6))
+    sales_by_format.sort_values(ascending=False).plot(kind='bar', color='purple')
+    plt.title('Total sales by format')
+    plt.xlabel('Product format')
+    plt.ylabel('Total sales')
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
@@ -121,7 +142,7 @@ def top_niches_sales(csv_file_path):
     print("Loading niches and counting sales...")
     df = pd.read_csv(csv_file_path)
 
-    df = df[df['purchase_parent_id'].isnull()]
+    df = df[df['purchase_recurrency_number'].isnull()]
 
     sales_by_niche = df.groupby('product_niche')['purchase_id'].nunique()
 
@@ -217,11 +238,29 @@ def month_sales_2023(csv_file_path):
     print("Loading monthly sales...")
     df = pd.read_csv(csv_file_path)
 
+    #fixing recurrency inconsistencies
+    print("Fixing recurrency inconsistencies...")
+    # df.loc[df['purchase_recurrency_number'] == 1, 'purchase_recurrency_number'] = "None"
+
+    df.loc[df['purchase_recurrency_type'].isnull(), 'purchase_recurrency_type'] = 'Recurring'
+    print("Finished")
+
+    # recurring_1_test = df[(df['purchase_recurrency_number'] == 1) & (df['purchase_recurrency_type'] == 'Recurring')]
+    # print("Count of purchase_recurrency_number = 1 & purchase_recurrency_type = Recurring:", len(recurring_1_test))
+
     df['purchase_release_datetime'] = pd.to_datetime(df['purchase_release_datetime'])
 
     df_2023 = df[df['purchase_release_datetime'].dt.year == 2023]
 
-    df_2023 = df_2023[df_2023['purchase_recurrency_number'].isnull()]
+    # df_2023 = df_2023[df_2023['purchase_recurrency_number'].isnull()]
+
+    # df_2023 = df_2023[(df_2023['purchase_recurrency_number'].isnull() | (df_2023['purchase_recurrency_number'] == 1))]
+    # print("Rows where purchase_recurrency_number is null:", df_2023['purchase_recurrency_number'].isnull().sum())
+    # print("Rows where purchase_recurrency_number is 1:", (df_2023['purchase_recurrency_number'] == 1).sum())
+    # print("Rows where purchase_recurrency_type is 'Single':", (df_2023['purchase_recurrency_type'] == 'Single').sum())
+    # print("Rows where purchase_recurrency_type is None:", df_2023['purchase_recurrency_type'].isnull().sum())
+
+    df_2023 = df_2023[(df_2023['purchase_recurrency_type'].isin(['Single']))]
 
     df_2023['month'] = df_2023['purchase_release_datetime'].dt.month.apply(lambda x: calendar.month_name[x])
 
