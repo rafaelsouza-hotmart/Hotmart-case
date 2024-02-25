@@ -18,6 +18,7 @@ if __name__ == '__main__':
               "\n9 - 2023 - Total Month sales"
               "\n10 - 2023 - Total Month Subscriptions"
               "\n11 - Number of sales by Niche"
+              "\n12 - Number of product by format"
               "\n0 - Exit")
 
         graph_chosen = input("What graph would you like to see: ")
@@ -47,6 +48,8 @@ if __name__ == '__main__':
             month_subscriptions_2023(csv_file_path)
         elif graph_chosen == "11":
             top_niches_sales(csv_file_path)
+        elif graph_chosen == "12":
+            product_type_graph(csv_file_path)
         else:
             print("Invalid option.")
 
